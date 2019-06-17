@@ -1,3 +1,7 @@
+examples/*
+
+#Added automatically by Github
+
 *.gem
 *.rbc
 /.config
