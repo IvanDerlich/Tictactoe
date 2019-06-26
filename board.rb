@@ -1,53 +1,125 @@
 class Board
     def initialize
-        @current_state = ["", 1, 2, 3, 4, 5, 6, 7, 8, 9]
-        @moves = 0
+        @state = ["", 1, 2, 3, 4, 5, 6, 7, 8, 9]        
     end
     def show
         puts ""
-        puts " #{@current_state[1]} | #{@current_state[2]} | #{@current_state[3]} "
+        puts " #{@state[7]} | #{@state[8]} | #{@state[9]} "
         puts "---|---|---"
-        puts " #{@current_state[4]} | #{@current_state[5]} | #{@current_state[6]} "
+        puts " #{@state[4]} | #{@state[5]} | #{@state[6]} "
         puts "---|---|---"
-        puts " #{@current_state[7]} | #{@current_state[8]} | #{@current_state[9]} "
+        puts " #{@state[1]} | #{@state[2]} | #{@state[3]} "
+
     end
 
     def tic(position,symbol)
-
-        unless( 
-            validatePosition(position) ||
-            validateSymbol(symbol)
-            )        
-            puts "Invalid input"
-            return false
-        end
-       
-        @current_state[position.to_i] = symbol
+        return -1 if validateSymbol(symbol) == -1
+        positionCode = validatePosition(position)
+        return positionCode if positionCode != 0       
+        @state[position.to_i] = symbol 
+        return checkwin
     end
 
     private
 
+    def checkwin   
+        # returns
+        # 0 -> no one has won yet
+        # 1 -> player 1 wins
+        # 2 -> player 2 wins
+
+        #DIAGONALS
+        
+        #TL-BR
+        if @state[1] ==  @state[5] && 
+            @state[5] == @state[9] 
+            return 1 if @state[5] == "x"
+            return 2 if @state[5] == "o"
+        end
+
+        #BL-TR
+        if @state[7] ==  @state[5] && 
+            @state[5] == @state[3] 
+            return 1 if @state[5] == "x"
+            return 2 if @state[5] == "o"
+        end
+
+        # #HORIZONTALS
+
+        #TL-TR
+        if @state[7] ==  @state[8] && 
+            @state[8] == @state[9] 
+            return 1 if @state[8] == "x"
+            return 2 if @state[8] == "o"
+        end
+
+        #CL-CR
+        if @state[4] ==  @state[5] && 
+            @state[5] == @state[6] 
+            return 1 if @state[5] == "x"
+            return 2 if @state[5] == "o"
+        end
+
+        #BL-BR
+        if @state[1] ==  @state[2] && 
+            @state[2] == @state[3] 
+            return 1 if @state[2] == "x"
+            return 2 if @state[2] == "o"
+        end
+
+        # #VERTICALS
+        
+        #TL-BL
+        if @state[7] ==  @state[4] && 
+            @state[4] == @state[1] 
+            return 1 if @state[4] == "x"
+            return 2 if @state[4] == "o"
+        end
+
+        #TC-BC
+        if @state[8] ==  @state[5] && 
+            @state[5] == @state[2] 
+            return 1 if @state[5] == "x"
+            return 2 if @state[5] == "o"
+        end
+        
+        #TR-BR
+        if @state[9] ==  @state[6] && 
+            @state[6] == @state[3]  
+            return 1 if @state[6] == "x"
+            return 2 if @state[6] == "o"
+        end   
+        0
+    end    
+
     def validatePosition(position)
+        #7: non stopping error
+        #0: everything OK
         unless position.is_a? Integer
-            puts "Position is not an inger"
-            return false
+            puts "Position is not an integer"
+            return 7
         end
         if position > 9
             puts "Position is greater than 9"
-            return false
+            return 7
         end
         if position < 1
             puts "Position is lower than 1"
-            return false
+            return 7
         end
-        true        
+        if @state[position]== 'x' || @state[position]== 'o'
+            puts "Position already taken"
+            return 7
+        end
+        0   
     end
+
     def validateSymbol(symbol)
-        unless symbol != "x" || symbol != "o"
+        if symbol != "x" && symbol != "o"
             puts "Symbol is not 'x' nor 'o'"
-            return false
+            return -1
         end
-        true
+        0
     end
     
 end
