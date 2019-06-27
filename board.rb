@@ -111,6 +111,10 @@ class Board
             puts "Position already taken"
             return 7
         end
+        if position.nil?
+            puts "Can't enter null position"
+            return 7
+        end
         0   
     end
 
