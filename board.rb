@@ -7,7 +7,7 @@ class Board
         puts " #{@state[7]} | #{@state[8]} | #{@state[9]} "
         puts "---|---|---"
         puts " #{@state[4]} | #{@state[5]} | #{@state[6]} "
-        puts "---|---|---"
+        puts "---|---|---"      
         puts " #{@state[1]} | #{@state[2]} | #{@state[3]} "
 
     end
